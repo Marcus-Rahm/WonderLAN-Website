@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Content.API.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,7 +26,11 @@ namespace Content.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton((IConfigurationRoot)Configuration);
             services.AddControllers();
+            services.AddMvc();
+            services.AddSingleton(provider => Configuration);
+            services.AddTransient<IContentRepository, ContentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
